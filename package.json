@@ -1,0 +1,18 @@
+{
+  "author": "Talles L <talleslasmar@gmail.com>",
+  "name": "qckwinsvc",
+  "description": "Mindless windows service installation",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tallesl/qckwinsvc.git"
+  },
+  "dependencies": {
+    "node-windows": "0.1.x",
+    "optimist": "0.6.x",
+    "prompt": "0.2.x"
+  },
+  "bin": {
+    "qckwinsvc": "./bin/qckwinsvc"
+  }
+}
