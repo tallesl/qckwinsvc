@@ -1,4 +1,4 @@
-# Quick Windows Service
+# Quick Windows Service [![NPM version](https://badge.fury.io/js/qckwinsvc.png)](http://badge.fury.io/js/qckwinsvc) [![Dependency Status](https://david-dm.org/tallesl/qckwinsvc.png)](https://david-dm.org/tallesl/qckwinsvc)
 
 Easiest way to install a node.js script as a windows service.
 
