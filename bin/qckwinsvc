@@ -6,6 +6,7 @@ var cli = require('optimist')
   .describe('name', 'Windows service name to install/uninstall (don\'t confuse with the display name')
   .describe('description', 'Service description')
   .describe('script', 'Path of the node script to be installed as a service')
+var Service = require('node-windows').Service
 
 var argv = cli.argv
 
@@ -17,19 +18,26 @@ function showHelp () {
 if (argv.h || argv.help) showHelp()
 if (argv.uninstall) {
   readName(function (name) {
-    //TODO uninstall service
-    console.log()
-    console.log('read name: ' + name)
+    readScript(function (script) {
+      var service = new Service({
+        name: name,
+        script: script
+      })
+      bindEvents(service)
+      service.uninstall()
+    })
   })
 } else {
   readName(function (name) {
     readDescription(function (description) {
-      readCommand(function (script) {
-        //TODO install service
-        console.log()
-        console.log('read name: ' + name)
-        console.log('read description: ' + description)
-        console.log('read script: ' + script)
+      readScript(function (script) {
+        var service = new Service({
+          name: name,
+          description: description,
+          script: script
+        })
+        bindEvents(service)
+        service.install()
       })
     })
   })
@@ -78,5 +86,15 @@ function readScript (callback) {
       else callback(result.script)
     }
   )
+}
+
+function bindEvents (service) {
+  service.on('install', function () { console.log('Service installed') })
+  service.on('alreadyInstalled', function () { console.log('Service already installed') })
+  service.on('invalidInstallation', function () { console.log('Invalid service installation (installation is detected but required files are missing)') })
+  service.on('uninstall', function () { console.log('Service uninstalled') })
+  service.on('start', function () { console.log('Service started') })
+  service.on('stop', function () { console.log('Service stopped') })
+  service.on('error', function () { console.log('An error occurred') })
 }
 
