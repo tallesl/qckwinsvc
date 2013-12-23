@@ -1,7 +1,7 @@
 {
   "author": "Talles L <talleslasmar@gmail.com>",
   "name": "qckwinsvc",
-  "description": "Mindless windows service installation",
+  "description": "easiest way to install a node.js script as a windows service",
   "version": "0.1.0",
   "repository": {
     "type": "git",
