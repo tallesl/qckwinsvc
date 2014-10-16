@@ -1,4 +1,10 @@
-# Quick Windows Service [![NPM version](https://badge.fury.io/js/qckwinsvc.png)](http://badge.fury.io/js/qckwinsvc) [![Dependency Status](https://david-dm.org/tallesl/qckwinsvc.png)](https://david-dm.org/tallesl/qckwinsvc)
+# ![logo/60.pnglogo](logo/32.png) Quick Windows Service
+
+[![dependencies](https://david-dm.org/tallesl/qckwinsvc.png)](https://david-dm.org/tallesl/qckwinsvc)
+[![devDependencies](https://david-dm.org/tallesl/qckwinsvc/dev-status.png)](https://david-dm.org/tallesl/qckwinsvc#info=devDependencies)
+[![npm module](https://badge.fury.io/js/qckwinsvc.png)](http://badge.fury.io/js/qckwinsvc)
+
+[![npm](https://nodei.co/npm/qckwinsvc.png?mini=true)](https://nodei.co/npm/qckwinsvc/)
 
 Easiest way to install a node.js script as a windows service.
 
@@ -6,7 +12,7 @@ Easiest way to install a node.js script as a windows service.
 
 This is just a little wrapper around [node-windows](https://github.com/coreybutler/node-windows) to install/uninstall a windows service.
 
-For more complete usage use *node-windows* directly.
+For a more complete usage, use *node-windows* directly.
 
 ## Installing
 
