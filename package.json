@@ -1,18 +1,23 @@
 {
   "author": "Talles L <talleslasmar@gmail.com>",
-  "name": "qckwinsvc",
-  "description": "easiest way to install a node.js script as a windows service",
-  "version": "0.1.0",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/tallesl/qckwinsvc.git"
+  "bin": {
+    "qckwinsvc": "./bin/qckwinsvc.js"
   },
   "dependencies": {
     "node-windows": "0.1.x",
     "optimist": "0.6.x",
     "prompt": "0.2.x"
   },
-  "bin": {
-    "qckwinsvc": "./bin/qckwinsvc"
-  }
+  "directories": {
+    "asset": "./asset",
+    "bin": "./bin"
+  },
+  "description": "easiest way to install a node.js script as a windows service",
+  "name": "qckwinsvc",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tallesl/qckwinsvc.git"
+  },
+  "version": "0.1.0"
 }
+
