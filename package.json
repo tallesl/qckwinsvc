@@ -14,6 +14,7 @@
   },
   "description": "easiest way to install a node.js script as a windows service",
   "name": "qckwinsvc",
+  "os": [ "win32" ],
   "preferGlobal": true,
   "repository": {
     "type": "git",
