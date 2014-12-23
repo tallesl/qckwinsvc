@@ -6,6 +6,7 @@ var cli = require('optimist')
   .describe('name', 'Windows service name to install/uninstall (don\'t confuse with the display name')
   .describe('description', 'Service description')
   .describe('script', 'Path of the node script to be installed as a service')
+  .describe('startImmediately', 'Should the service get started immediately')
 var Service = require('node-windows').Service
 
 var argv = cli.argv
@@ -31,20 +32,22 @@ if (argv.uninstall) {
   readName(function (name) {
     readDescription(function (description) {
       readScript(function (script) {
-        var service = new Service({
-          name: name,
-          description: description,
-          script: script
+        readStartImmediately(function(startImmediately) {
+          var service = new Service({
+            name: name,
+            description: description,
+            script: script
+          })
+          bindEvents(service, startImmediately)
+          service.install()
         })
-        bindEvents(service)
-        service.install()
       })
     })
   })
 }
 
 function readName (callback) {
-  if (argv.name) process.nextTick(function () { callback(argv.name) })
+  if (argv.name) return process.nextTick(function () { callback(argv.name) })
   prompt.get(
     {
       name: 'name',
@@ -60,7 +63,7 @@ function readName (callback) {
 }
 
 function readDescription (callback) {
-  if (argv.description) process.nextTick(function () { callback(null, argv.description) })
+  if (argv.description) return process.nextTick(function () { callback(argv.description) })
   prompt.get(
     {
       name: 'description',
@@ -74,7 +77,7 @@ function readDescription (callback) {
 }
 
 function readScript (callback) {
-  if (argv.name) process.nextTick(function () { callback(null, argv.name) })
+  if (argv.script) return process.nextTick(function () { callback(argv.script) })
   prompt.get(
     {
       name: 'script',
@@ -88,8 +91,30 @@ function readScript (callback) {
   )
 }
 
-function bindEvents (service) {
-  service.on('install', function () { console.log('Service installed') })
+function readStartImmediately (callback) {
+  if (argv.start) return process.nextTick(function () { callback(argv.start) })
+  prompt.get(
+    {
+      name: 'startImmediately',
+      description: 'Should the service get started immediately? (y/n)'
+    },
+    function (err, result) {
+      if (err) throw err
+      else {
+        var startImmediately = ['yes', 'y'].indexOf(result.startImmediately.toLowerCase()) != -1
+
+        callback(startImmediately)
+      }
+    }
+  )
+}
+
+function bindEvents (service, startImmediately) {
+  service.on('install', function () {
+    console.log('Service installed')
+
+    if (startImmediately) { service.start() }
+  })
   service.on('alreadyInstalled', function () { console.log('Service already installed') })
   service.on('invalidInstallation', function () { console.log('Invalid service installation (installation is detected but required files are missing)') })
   service.on('uninstall', function () { console.log('Service uninstalled') })
