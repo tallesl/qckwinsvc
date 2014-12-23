@@ -42,3 +42,7 @@ Service stopped
 Service uninstalled
 ```
 
+#### Faster way to uninstall
+```
+> qckwinsvc --uninstall --name "[name for your service]" --script [path of your node script]
+```
