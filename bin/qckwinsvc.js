@@ -92,7 +92,7 @@ function readScript (callback) {
 }
 
 function readStartImmediately (callback) {
-  if (argv.start) return process.nextTick(function () { callback(argv.start) })
+  if (argv.startImmediately) return process.nextTick(function () { callback(argv.startImmediately) })
   prompt.get(
     {
       name: 'startImmediately',
