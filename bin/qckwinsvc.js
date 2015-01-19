@@ -6,6 +6,7 @@ var cli = require('optimist')
   .describe('name', 'Windows service name to install/uninstall (don\'t confuse with the display name')
   .describe('description', 'Service description')
   .describe('script', 'Path of the node script to be installed as a service')
+  .describe('startImmediately', 'Should the service get started immediately')
 var Service = require('node-windows').Service
 
 var argv = cli.argv
@@ -15,81 +16,58 @@ function showHelp () {
   process.exit()
 }
 
-if (argv.h || argv.help) showHelp()
-if (argv.uninstall) {
-  readName(function (name) {
-    readScript(function (script) {
-      var service = new Service({
-        name: name,
-        script: script
-      })
-      bindEvents(service)
-      service.uninstall()
-    })
-  })
-} else {
-  readName(function (name) {
-    readDescription(function (description) {
-      readScript(function (script) {
-        var service = new Service({
-          name: name,
-          description: description,
-          script: script
-        })
-        bindEvents(service)
-        service.install()
-      })
-    })
-  })
-}
-
-function readName (callback) {
-  if (argv.name) process.nextTick(function () { callback(argv.name) })
-  prompt.get(
-    {
-      name: 'name',
+function read(/* [propertyNames], callback */) {
+  var properties = {
+    'name': {
       description: 'Service name',
       required: true,
-      pattern: /^[a-zA-Z\-]+$/
+      pattern: /^[a-zA-Z\-]+$/,
+      message: 'Name must be only letters or dashes'
     },
-    function (err, result) {
-      if (err) throw err
-      else callback(result.name)
-    }
-  )
-}
-
-function readDescription (callback) {
-  if (argv.description) process.nextTick(function () { callback(null, argv.description) })
-  prompt.get(
-    {
-      name: 'description',
+    'description': {
       description: 'Service description'
     },
-    function (err, result) {
-      if (err) throw err
-      else callback(result.description)
-    }
-  )
-}
-
-function readScript (callback) {
-  if (argv.name) process.nextTick(function () { callback(null, argv.name) })
-  prompt.get(
-    {
-      name: 'script',
+    'script': {
       description: 'Node script path',
       required: true
     },
-    function (err, result) {
-      if (err) throw err
-      else callback(result.script)
+    'startImmediately': {
+      description: 'Should the service get started immediately? (y/n)',
+      before: function(value) {
+        var bool = ['yes', 'y'].indexOf(value.toLowerCase()) != -1
+        return bool;
+      }
     }
-  )
-}
+  };
 
-function bindEvents (service) {
-  service.on('install', function () { console.log('Service installed') })
+  // default to read all and expect callback as first param
+  var toRead = properties;
+  var callback = arguments[0];
+
+  if (callback instanceof Array) {
+    // when first param is an array of property names
+    toRead = callback.reduce(function(map, propertyName) {
+      map[propertyName] = properties[propertyName];
+      return map;
+    }, {});
+
+    callback = arguments[1];
+  }
+
+  // in case user specifies data in cli
+  prompt.override = argv;
+
+  prompt.get({
+    properties: toRead
+  }, callback);
+};
+
+function bindEvents (service, properties) {
+  service.on('install', function () {
+    console.log('Service installed')
+
+    if (properties.startImmediately) { service.start() }
+  })
   service.on('alreadyInstalled', function () { console.log('Service already installed') })
   service.on('invalidInstallation', function () { console.log('Invalid service installation (installation is detected but required files are missing)') })
   service.on('uninstall', function () { console.log('Service uninstalled') })
@@ -98,3 +76,28 @@ function bindEvents (service) {
   service.on('error', function () { console.log('An error occurred') })
 }
 
+/*
+ * RUN
+ */
+
+if (argv.h || argv.help) showHelp();
+
+var readArgs = [
+  function run(error, properties) {
+    if (error) {
+      throw error;
+    }
+
+    var service = new Service(properties);
+
+    bindEvents(service, properties);
+
+    service[argv.uninstall ? 'uninstall' : 'install']();
+  }
+];
+
+if (argv.uninstall) {
+  readArgs.unshift(['name', 'script']);
+}
+
+read.apply(this, readArgs);

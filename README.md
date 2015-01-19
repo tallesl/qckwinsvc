@@ -22,7 +22,14 @@ npm install -g qckwinsvc
 prompt: Service name: [name for your service]
 prompt: Service description: [description for it]
 prompt: Node script path: [path of your node script]
+prompt: Should the service get started immediately? (y/n): [yes or y to start the service]
 Service installed
+[Service started]
+```
+
+#### Faster way to install
+```
+> qckwinsvc --name "[name for your service]" --description "[description for it]" --script [path of your node script] --startImmediately
 ```
 
 ## Uninstalling your service
@@ -35,3 +42,7 @@ Service stopped
 Service uninstalled
 ```
 
+#### Faster way to uninstall
+```
+> qckwinsvc --uninstall --name "[name for your service]" --script [path of your node script]
+```
