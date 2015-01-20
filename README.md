@@ -6,43 +6,41 @@
 
 [![npm](https://nodei.co/npm/qckwinsvc.png?mini=true)](https://nodei.co/npm/qckwinsvc/)
 
-A wrapper around [node-windows](https://github.com/coreybutler/node-windows) to install/uninstall a windows service.  
-For a complete usage, use *node-windows* directly.
+CLI utility that installs/uninstalls a windows service.
 
-## Installing
-
-```
-npm install -g qckwinsvc
-```
+This is a wrapper around [node-windows](https://github.com/coreybutler/node-windows).
 
 ## Installing your service
 
-```
-> qckwinsvc
-prompt: Service name: [name for your service]
-prompt: Service description: [description for it]
-prompt: Node script path: [path of your node script]
-prompt: Should the service get started immediately? (y/n): [yes or y to start the service]
-Service installed
-[Service started]
-```
+### Interactively
 
-#### Faster way to install
-```
-> qckwinsvc --name "[name for your service]" --description "[description for it]" --script [path of your node script] --startImmediately
-```
+	> qckwinsvc
+	prompt: Service name: Hello
+	prompt: Service description: Greets the world
+	prompt: Node script path: C:\my\folder\hello.js
+	prompt: Should the service get started immediately? (y/n): y
+	Service installed.
+	Service started.
+
+### Non-interactively
+
+	> qckwinsvc --name "Hello" --description "Greets the world" --script "C:\my\folder\hello.js" --startImmediately
+	Service installed.
+	Service started.
 
 ## Uninstalling your service
 
-```
-> qckwinsvc --uninstall
-prompt: Service name: [name of your service]
-prompt: Node script path: [path of your node script]
-Service stopped
-Service uninstalled
-```
+### Interactively
 
-#### Faster way to uninstall
-```
-> qckwinsvc --uninstall --name "[name for your service]" --script [path of your node script]
-```
+	> qckwinsvc --uninstall
+	prompt: Service name: Hello
+	prompt: Node script path: C:\my\folder\hello.js
+	Service stopped.
+	Service uninstalled.
+
+
+### Non-interactively
+
+	> qckwinsvc --uninstall --name "Hello" --script "C:\my\folder\hello.js"
+	Service stopped.
+	Service uninstalled.
