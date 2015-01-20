@@ -14,33 +14,40 @@ This is a wrapper around [node-windows](https://github.com/coreybutler/node-wind
 
 ### Interactively
 
-	> qckwinsvc
-	prompt: Service name: Hello
-	prompt: Service description: Greets the world
-	prompt: Node script path: C:\my\folder\hello.js
-	prompt: Should the service get started immediately? (y/n): y
-	Service installed.
-	Service started.
+```
+> qckwinsvc
+prompt: Service name: Hello
+prompt: Service description: Greets the world
+prompt: Node script path: C:\my\folder\hello.js
+prompt: Should the service get started immediately? (y/n): y
+Service installed.
+Service started.
+```
 
 ### Non-interactively
 
-	> qckwinsvc --name "Hello" --description "Greets the world" --script "C:\my\folder\hello.js" --startImmediately
-	Service installed.
-	Service started.
+```
+> qckwinsvc --name "Hello" --description "Greets the world" --script "C:\my\folder\hello.js" --startImmediately
+Service installed.
+Service started.
+```
 
 ## Uninstalling your service
 
 ### Interactively
 
-	> qckwinsvc --uninstall
-	prompt: Service name: Hello
-	prompt: Node script path: C:\my\folder\hello.js
-	Service stopped.
-	Service uninstalled.
-
+```
+> qckwinsvc --uninstall
+prompt: Service name: Hello
+prompt: Node script path: C:\my\folder\hello.js
+Service stopped.
+Service uninstalled.
+```
 
 ### Non-interactively
 
-	> qckwinsvc --uninstall --name "Hello" --script "C:\my\folder\hello.js"
-	Service stopped.
-	Service uninstalled.
+```
+> qckwinsvc --uninstall --name "Hello" --script "C:\my\folder\hello.js"
+Service stopped.
+Service uninstalled.
+```
