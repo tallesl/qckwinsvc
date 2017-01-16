@@ -1,4 +1,4 @@
-# ![logo](asset/logo/32.png) Quick Windows Service
+# ![logo](https://cloud.githubusercontent.com/assets/11269635/21997733/1ba2e4e4-dc31-11e6-8134-35df2bb69f83.png) Quick Windows Service
 
 [![dependencies](https://david-dm.org/tallesl/qckwinsvc.png)](https://david-dm.org/tallesl/qckwinsvc)
 [![devDependencies](https://david-dm.org/tallesl/qckwinsvc/dev-status.png)](https://david-dm.org/tallesl/qckwinsvc#info=devDependencies)
